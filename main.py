@@ -4,9 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from musica_api.config import Settings
-from musica_api.database import test_connection  # ⬅️ Importamos la función
-# from musica_api.database import create_db_and_tables
-# from musica_api.routers import usuarios, peliculas, favoritos
+from musica_api.database import engine, test_connection, Base, create_db_and_tables
+from routers import usuarios, canciones, favoritos
 
 
 @asynccontextmanager
@@ -16,11 +15,13 @@ async def lifespan(app: FastAPI):
     Se ejecuta al iniciar y al cerrar la aplicación.
     """
     # Startup: Crear tablas en la base de datos
-    # create_db_and_tables()
+    print("Iniciando aplicación...")
+    create_db_and_tables()
+    test_connection()
     yield
     
     # Shutdown: Limpiar recursos si es necesario
-    print("cerrando aplicación...")
+    print("Cerrando aplicación...")
 
 
 # Crear la instancia de FastAPI con metadatos apropiados
@@ -46,9 +47,10 @@ app.add_middleware(
 )
 
 
-# TODO: Incluir los routers de usuarios, canciones y favoritos
-# Ejemplo:
-# app.include_router(usuarios.router, prefix="/api/usuarios", tags=["Usuarios"])
+#TODO Incluir los routers de usuarios, canciones y favoritos
+app.include_router(usuarios.router, prefix="/api/usuarios", tags=["Usuarios"])
+app.include_router(canciones.router, prefix="/api/canciones", tags=["Canciones"])
+app.include_router(favoritos.router, prefix="/api/favoritos", tags=["Favoritos"])
 
 
 # Crear un endpoint raíz que retorne información básica de la API
