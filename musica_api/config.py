@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     # Configuración de la base de datos
     # Para SQLite: sqlite:///./musica.db
     # Para PostgreSQL: postgresql://user:password@localhost/dbname
-    database_url: str = "sqlite:///./musica.db"
+    database_url: str = "sqlite:///./database.sqlite"
     
     # Configuración del servidor
     host: str = "0.0.0.0"

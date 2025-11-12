@@ -1,11 +1,12 @@
+# musica_api/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from app.database import create_db_and_tables
-from app.routers import usuarios, peliculas, favoritos
-
-# TODO: Importar la configuración desde app.config
+from musica_api.config import Settings
+from musica_api.database import test_connection  # ⬅️ Importamos la función
+# from musica_api.database import create_db_and_tables
+# from musica_api.routers import usuarios, peliculas, favoritos
 
 
 @asynccontextmanager
@@ -15,7 +16,7 @@ async def lifespan(app: FastAPI):
     Se ejecuta al iniciar y al cerrar la aplicación.
     """
     # Startup: Crear tablas en la base de datos
-    create_db_and_tables()
+    # create_db_and_tables()
     yield
     
     # Shutdown: Limpiar recursos si es necesario
